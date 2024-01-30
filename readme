@@ -1,1 +1,6 @@
 meteoradar jako gif
+script upraven aby si sam vytvařel složky
+instalace potřebných balíčku jde udělat:
+
+pip install -r requirements.txt
+

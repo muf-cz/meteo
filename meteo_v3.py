@@ -1,10 +1,31 @@
 import requests
 import datetime
 import os
-import imageio.v2 as imageio
+import imageio.v3 as imageio
 from PIL import Image
 
-for i in range(1,8):
+
+def create_images_folder():
+    folder_name = "images"
+
+    # Zjistit aktuální pracovní adresář
+    current_directory = os.getcwd()
+
+    # Vytvořit cestu k adresáři "images"
+    images_folder_path = os.path.join(current_directory, folder_name)
+
+    # Zkontrolovat, zda složka již existuje
+    if not os.path.exists(images_folder_path):
+        # Pokud neexistuje, vytvořit ji
+        os.makedirs(images_folder_path)
+        print(f"Složka '{folder_name}' byla úspěšně vytvořena.")
+    else:
+        print(f"Složka '{folder_name}' již existuje.")
+    return folder_name
+
+create_images_folder()
+
+for i in range(1,8):#tady se nastavuje pocet stažených snímku snimky jsou po 10min
     
     #image_name_dir = 'images/' + str(i) +'.png'
     #f = open(image_name_dir,'wb')
@@ -77,11 +98,14 @@ for i in range(1,8):
         background.save("images/new"+str(i-10)+str(a)+".png", format="png")
         os.remove("images/" + str(i) +str(a)+".png")
 
-png_dir = '/home/noname/Desktop/meteoradar/images'
+png_dir = create_images_folder()
 images = []
 for file_name in sorted(os.listdir(png_dir)):
     if file_name.endswith('.png'):
         file_path = os.path.join(png_dir, file_name)
         images.append(imageio.imread(file_path))
-imageio.mimsave('meteo.gif', images,fps=3)
-        
+imageio.imwrite('meteo.gif', images,fps=5)
+
+print ("gif vytvořen")
+
+
